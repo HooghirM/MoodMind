@@ -23,9 +23,10 @@ CREATE TABLE IF NOT EXISTS users (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS entries (
     id INTEGER PRIMARY KEY,
-    user_id INTEGER FOREIGN KEY,
+    user_id INTEGER,
     content TEXT NOT NULL,
-    created_at TEXT NOT NULL
+    created_at TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 """)
 
@@ -33,10 +34,11 @@ CREATE TABLE IF NOT EXISTS entries (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS mood_scores (
     id INTEGER PRIMARY KEY,
-    user_id INTEGER FOREIGN KEY,
+    entry_id INTEGER,
     score REAL NOT NULL,
     label TEXT NOT NULL,
-    analyzed_at TEXT NOT NULL
+    analyzed_at TEXT NOT NULL,
+    FOREIGN KEY (entry_id) REFERENCES entries(id)
 );
 """)
 
@@ -44,10 +46,11 @@ CREATE TABLE IF NOT EXISTS mood_scores (
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS daily_summary (
     id INTEGER PRIMARY KEY,
-    user_id INTEGER FOREIGN KEY,
+    user_id INTEGER,
     date TEXT NOT NULL,
     average_score REAL NOT NULL,
-    entry_count INTEGER NOT NULL
+    entry_count INTEGER NOT NULL,
+     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 """)
 
