@@ -54,3 +54,23 @@ def list_entries_for_user(user_id):
     connection.close()
 
     return rows
+
+def get_entry_by_id(entry_id):
+    # Connect to the SQLite database
+    connection = sqlite3.connect('MoodMind.db')
+    cursor = connection.cursor()
+
+     # Enable foreign key support
+    cursor.execute("PRAGMA foreign_keys = ON;")
+
+    cursor.execute('select * FROM entries WHERE id = ?', (entry_id,))
+    row = cursor.fetchone()
+    if row is None:
+        cursor.close()
+        connection.close()
+        return None
+   
+    cursor.close()
+    connection.close()
+    return row
+    
